@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px 15px;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #ffe4e8, #f8c7cf);
+            color: #3a2327;
+        }
+
+        .form-card {
+            width: min(720px, 100%);
+            background: #fffafa;
+            border: 1px solid #e8a8b2;
+            border-radius: 18px;
+            box-shadow: 0 12px 30px rgba(150, 60, 80, 0.16);
+            overflow: hidden;
+        }
+
+        .form-header {
+            padding: 28px;
+            text-align: center;
+            background: #d96b7d;
+            color: white;
+        }
+
+        .form-header h1 {
+            margin: 0 0 8px;
+            font-size: 30px;
+        }
+
+        .form-header p {
+            margin: 0;
+            color: #ffeef1;
+        }
+
+        form {
+            padding: 30px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .field.full {
+            grid-column: 1 / -1;
+        }
+
+        label,
+        legend {
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d9a1aa;
+            border-radius: 9px;
+            background: white;
+            font-size: 15px;
+            outline: none;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #c24f64;
+            box-shadow: 0 0 0 3px rgba(194, 79, 100, 0.12);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 95px;
+        }
+
+        fieldset {
+            border: 0;
+            padding: 0;
+            margin: 0;
+        }
+
+        .options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-top: 8px;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: normal;
+        }
+
+        .option input {
+            width: auto;
+        }
+
+        .password-box {
+            position: relative;
+        }
+
+        .password-box input {
+            padding-right: 65px;
+        }
+
+        .show-btn {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            border: 0;
+            background: transparent;
+            color: #b43f55;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .error {
+            min-height: 16px;
+            margin: 0;
+            color: #b32035;
+            font-size: 12px;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 26px;
+        }
+
+        button {
+            padding: 11px 20px;
+            border-radius: 9px;
+            border: 0;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .clear-btn {
+            background: #f1d9dd;
+            color: #6b2a36;
+        }
+
+        .submit-btn {
+            background: #c84f65;
+            color: white;
+        }
+
+        .submit-btn:hover {
+            background: #ad3d51;
+        }
+
+        .success-message {
+            display: none;
+            margin-top: 22px;
+            padding: 14px;
+            border-radius: 9px;
+            background: #e7f7ec;
+            color: #24633a;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        @media (max-width: 650px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .field.full {
+                grid-column: auto;
+            }
+
+            form {
+                padding: 22px;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+
+            .buttons button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="form-card">
+        <div class="form-header">
+            <h1>Register Now</h1>
+            <p>Create your account by completing the form below.</p>
+        </div>
+
+        <form id="registrationForm" novalidate>
+            <div class="form-grid">
+                <div class="field">
+                    <label for="username">Username *</label>
+                    <input id="username" type="text" placeholder="Enter username">
+                    <p class="error" id="usernameError"></p>
+                </div>
+
+                <div class="field">
+                    <label for="email">Email *</label>
+                    <input id="email" type="email" placeholder="Enter email">
+                    <p class="error" id="emailError"></p>
+                </div>
+
+                <div class="field">
+                    <label for="password">Password *</label>
+
+                    <div class="password-box">
+                        <input id="password" type="password" placeholder="Minimum 6 characters">
+                        <button type="button" class="show-btn" data-target="password">Show</button>
+                    </div>
+
+                    <p class="error" id="passwordError"></p>
+                </div>
+
+                <div class="field">
+                    <label for="confirmPassword">Confirm Password *</label>
+
+                    <div class="password-box">
+                        <input id="confirmPassword" type="password" placeholder="Re-enter password">
+                        <button type="button" class="show-btn" data-target="confirmPassword">Show</button>
+                    </div>
+
+                    <p class="error" id="confirmPasswordError"></p>
+                </div>
+
+                <fieldset class="field full">
+                    <legend>Gender</legend>
+
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="gender" value="Female">
+                            Female
+                        </label>
+
+                        <label class="option">
+                            <input type="radio" name="gender" value="Male">
+                            Male
+                        </label>
+
+                        <label class="option">
+                            <input type="radio" name="gender" value="Prefer not to say">
+                            Prefer not to say
+                        </label>
+                    </div>
+                </fieldset>
+
+                <fieldset class="field full">
+                    <legend>Hobbies</legend>
+
+                    <div class="options">
+                        <label class="option">
+                            <input type="checkbox" value="Reading">
+                            Reading
+                        </label>
+
+                        <label class="option">
+                            <input type="checkbox" value="Writing">
+                            Writing
+                        </label>
+                        <label class="option">
+                            <input type="checkbox" value="Programming">
+                            Programming
+                        </label>
+
+                        <label class="option">
+                            <input type="checkbox" value="Music">
+                            Music
+                        </label>
+
+                        <label class="option">
+                            <input type="checkbox" value="Sports">
+                            Sports
+                        </label>
+                        <label class="option">
+                            <input type="checkbox" value="Dance">
+                            Dance
+                        </label>
+                    </div>
+                </fieldset>
+
+                <div class="field">
+                    <label for="city">City *</label>
+
+                    <select id="city">
+                        <option value="">Select city</option>
+                        <option>Victoria</option>
+                        <option>Vancouver</option>
+                        <option>Toronto</option>
+                        <option>Calgary</option>
+                        <option>Edmonton</option>
+                        <option>Ottawa</option>
+                    </select>
+
+                    <p class="error" id="cityError"></p>
+                </div>
+
+                <div class="field">
+                    <label for="qualification">Qualification *</label>
+
+                    <select id="qualification">
+                        <option value="">Select qualification</option>
+                        <option>High School Diploma</option>
+                        <option>Bachelor's</option>
+                        <option>Graduate</option>
+                        <option>Master's</option>
+                        <option>PhD</option>
+                        <option>Other</option>
+                    </select>
+
+                    <p class="error" id="qualificationError"></p>
+                </div>
+
+                <div class="field full">
+                    <label for="address">Address</label>
+                    <textarea id="address" placeholder="Enter your address"></textarea>
+                </div>
+
+                <div class="field full">
+                    <label for="profilePicture">Profile Picture</label>
+                    <input id="profilePicture" type="file" accept="image/*">
+                </div>
+
+                
+            </div>
+
+            <div class="buttons">
+                <button type="reset" class="clear-btn">Clear</button>
+                <button type="submit" class="submit-btn">Register</button>
+            </div>
+
+            <div class="success-message" id="successMessage">
+                Registration completed successfully!
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const form = document.getElementById("registrationForm");
+        const successMessage = document.getElementById("successMessage");
+
+        const username = document.getElementById("username");
+        const email = document.getElementById("email");
+        const password = document.getElementById("password");
+        const confirmPassword = document.getElementById("confirmPassword");
+        const city = document.getElementById("city");
+        const qualification = document.getElementById("qualification");
+
+        function setError(input, message) {
+            const errorElement = document.getElementById(input.id + "Error");
+            errorElement.textContent = message;
+            input.style.borderColor = message ? "#b32035" : "#d9a1aa";
+            return !message;
+        }
+
+        function validateForm() {
+            const usernameValid = setError(
+                username,
+                username.value.trim().length >= 3
+                    ? ""
+                    : "Username must be at least 3 characters."
+            );
+
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            const emailValid = setError(
+                email,
+                emailPattern.test(email.value.trim())
+                    ? ""
+                    : "Enter a valid email address."
+            );
+
+            const passwordValid = setError(
+                password,
+                password.value.length >= 6
+                    ? ""
+                    : "Password must be at least 6 characters."
+            );
+
+            const confirmValid = setError(
+                confirmPassword,
+                confirmPassword.value === password.value && confirmPassword.value !== ""
+                    ? ""
+                    : "Passwords do not match."
+            );
+
+            const cityValid = setError(
+                city,
+                city.value ? "" : "Please select a city."
+            );
+
+            const qualificationValid = setError(
+                qualification,
+                qualification.value ? "" : "Please select a qualification."
+            );
+
+            return (
+                usernameValid &&
+                emailValid &&
+                passwordValid &&
+                confirmValid &&
+                cityValid &&
+                qualificationValid
+            );
+        }
+
+        document.querySelectorAll(".show-btn").forEach((button) => {
+            button.addEventListener("click", () => {
+                const input = document.getElementById(button.dataset.target);
+                const isHidden = input.type === "password";
+
+                input.type = isHidden ? "text" : "password";
+                button.textContent = isHidden ? "Hide" : "Show";
+            });
+        });
+
+        form.addEventListener("submit", (event) => {
+            event.preventDefault();
+
+            if (validateForm()) {
+                successMessage.style.display = "block";
+            } else {
+                successMessage.style.display = "none";
+            }
+        });
+
+        form.addEventListener("reset", () => {
+            setTimeout(() => {
+                document.querySelectorAll(".error").forEach((error) => {
+                    error.textContent = "";
+                });
+
+                document.querySelectorAll("input, select").forEach((input) => {
+                    input.style.borderColor = "#d9a1aa";
+                });
+
+                successMessage.style.display = "none";
+            }, 0);
+        });
+    </script>
+</body>
+</html>
